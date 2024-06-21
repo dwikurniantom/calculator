@@ -58,7 +58,7 @@ class CalculatorPage extends StatelessWidget {
                                     context.textTheme.displayMedium?.copyWith(
                                   color: (state?.isIdle ?? false)
                                       ? context.colorScheme.primary
-                                      : context.colorScheme.onBackground,
+                                      : context.colorScheme.onSurface,
                                 ),
                                 controller: inputController,
                                 inputFormatters: [

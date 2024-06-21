@@ -11,7 +11,7 @@ class ComponentTheme {
     required this.colorScheme,
   });
 
-  AppBarTheme get appBarThemeData => AppBarTheme(
+  AppBarTheme get appBarThemeData => const AppBarTheme(
       // elevation: 0,
       // backgroundColor: colorScheme.background,
       // foregroundColor: colorScheme.primary,
@@ -19,18 +19,19 @@ class ComponentTheme {
       );
 
   IconThemeData get iconThemeData => IconThemeData(
-        color: colorScheme.onBackground,
+        color: colorScheme.onSurface,
       );
 
-  NavigationBarThemeData get navigationBarThemeData => NavigationBarThemeData(
-      // height: 64,
-      );
+  NavigationBarThemeData get navigationBarThemeData =>
+      const NavigationBarThemeData(
+          // height: 64,
+          );
 
   BottomNavigationBarThemeData get bottomNavigationBarThemeData =>
       BottomNavigationBarThemeData(
         selectedItemColor: colorScheme.primary,
         unselectedItemColor: colorScheme.primary.withOpacity(0.35),
-        backgroundColor: colorScheme.background,
+        backgroundColor: colorScheme.surface,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
       );
@@ -49,7 +50,7 @@ class ComponentTheme {
       );
 
   DividerThemeData get dividerThemeData => DividerThemeData(
-        color: colorScheme.onBackground.withOpacity(0.25),
+        color: colorScheme.onSurface.withOpacity(0.25),
       );
 
   ChipThemeData get chipThemeData => ChipThemeData(
@@ -67,22 +68,22 @@ class ComponentTheme {
       ElevatedButtonThemeData(
         style: ButtonStyle(
           splashFactory: InkRipple.splashFactory,
-          backgroundColor: MaterialStateProperty.resolveWith(
+          backgroundColor: WidgetStateProperty.resolveWith(
             (states) {
-              if (states.contains(MaterialState.pressed)) {
+              if (states.contains(WidgetState.pressed)) {
                 return colorScheme.primary.withOpacity(0.5);
-              } else if (states.contains(MaterialState.disabled)) {
+              } else if (states.contains(WidgetState.disabled)) {
                 return context.colorScheme.onSurface.withOpacity(0.12);
               } else {
                 return colorScheme.primary;
               }
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith(
+          foregroundColor: WidgetStateProperty.resolveWith(
             (states) {
-              if (states.contains(MaterialState.pressed)) {
+              if (states.contains(WidgetState.pressed)) {
                 return colorScheme.onPrimary;
-              } else if (states.contains(MaterialState.disabled)) {
+              } else if (states.contains(WidgetState.disabled)) {
                 return colorScheme.onSurface.withOpacity(0.38);
               } else {
                 return colorScheme.onPrimary;
@@ -96,21 +97,21 @@ class ComponentTheme {
   OutlinedButtonThemeData get outlinedButtonThemeData =>
       OutlinedButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.resolveWith(
+          foregroundColor: WidgetStateProperty.resolveWith(
             (states) {
-              if (states.contains(MaterialState.pressed)) {
-                return colorScheme.onBackground;
-              } else if (states.contains(MaterialState.disabled)) {
-                return colorScheme.onBackground.withOpacity(0.38);
+              if (states.contains(WidgetState.pressed)) {
+                return colorScheme.onSurface;
+              } else if (states.contains(WidgetState.disabled)) {
+                return colorScheme.onSurface.withOpacity(0.38);
               } else {
-                return colorScheme.onBackground;
+                return colorScheme.onSurface;
               }
             },
           ),
-          side: MaterialStateProperty.resolveWith(
+          side: WidgetStateProperty.resolveWith(
             (states) {
               return BorderSide(
-                color: colorScheme.onBackground.withOpacity(0.25),
+                color: colorScheme.onSurface.withOpacity(0.25),
                 width: 1,
               );
             },
@@ -119,7 +120,7 @@ class ComponentTheme {
       );
 
   PopupMenuThemeData get popupMenuThemeData => PopupMenuThemeData(
-        color: colorScheme.background,
+        color: colorScheme.surface,
         elevation: 0.75,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -129,7 +130,7 @@ class ComponentTheme {
       );
 
   ToggleButtonsThemeData get toggleButtonsThemeData => ToggleButtonsThemeData(
-        borderColor: colorScheme.onBackground.withOpacity(0.38),
+        borderColor: colorScheme.onSurface.withOpacity(0.38),
         selectedBorderColor: colorScheme.primary,
         constraints: const BoxConstraints.tightForFinite(
           height: 38,
@@ -144,17 +145,17 @@ class ComponentTheme {
 
   TooltipThemeData get tooltipThemeData => TooltipThemeData(
         decoration: BoxDecoration(
-          color: colorScheme.background,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(8),
         ),
       );
 
   DropdownMenuThemeData get dropdownMenuThemeData => DropdownMenuThemeData(
         menuStyle: MenuStyle(
-          backgroundColor: MaterialStatePropertyAll(
-            colorScheme.background,
+          backgroundColor: WidgetStatePropertyAll(
+            colorScheme.surface,
           ),
-          elevation: const MaterialStatePropertyAll(
+          elevation: const WidgetStatePropertyAll(
             0.75,
           ),
         ),

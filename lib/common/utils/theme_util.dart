@@ -29,7 +29,7 @@ class ThemeUtil {
 
   ThemeData get lightTheme => ThemeData(
         colorScheme: lightColorScheme,
-        scaffoldBackgroundColor: lightColorScheme.background,
+        scaffoldBackgroundColor: lightColorScheme.surface,
         useMaterial3: true,
         bottomNavigationBarTheme:
             lightComponentTheme.bottomNavigationBarThemeData,
@@ -51,7 +51,7 @@ class ThemeUtil {
 
   ThemeData get darkTheme => ThemeData(
         colorScheme: darkColorScheme,
-        scaffoldBackgroundColor: darkColorScheme.background,
+        scaffoldBackgroundColor: darkColorScheme.surface,
         useMaterial3: true,
         bottomNavigationBarTheme:
             darkComponentTheme.bottomNavigationBarThemeData,
@@ -96,15 +96,15 @@ class ThemeUtil {
 
   /// Text Theme
   TextTheme get lightTextTheme => GoogleFonts.interTextTheme().apply(
-        bodyColor: lightColorScheme.onBackground,
-        displayColor: lightColorScheme.onBackground,
-        decorationColor: lightColorScheme.onBackground,
+        bodyColor: lightColorScheme.onSurface,
+        displayColor: lightColorScheme.onSurface,
+        decorationColor: lightColorScheme.onSurface,
       );
 
   TextTheme get darkTextTheme => GoogleFonts.poppinsTextTheme().apply(
-        bodyColor: darkColorScheme.onBackground,
-        displayColor: darkColorScheme.onBackground,
-        decorationColor: darkColorScheme.onBackground,
+        bodyColor: darkColorScheme.onSurface,
+        displayColor: darkColorScheme.onSurface,
+        decorationColor: darkColorScheme.onSurface,
       );
 
   /// Method util
