@@ -1,9 +1,12 @@
 import 'package:calculator/common/extensions/context_extension.dart';
 import 'package:calculator/presentation/bloc/calculator/calculator_cubit.dart';
+import 'package:calculator/presentation/bloc/calculator/calculator_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../common/formatters/thousands_separator_input_formatter.dart';
 import '../widgets/calculator_button.dart';
 
 class CalculatorPage extends StatelessWidget {
@@ -16,16 +19,21 @@ class CalculatorPage extends StatelessWidget {
   /// ```
   static const String routeName = '/calculator';
 
-  const CalculatorPage({super.key});
+  CalculatorPage({super.key});
+
+  /// Text field controller
+  final inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     /// Bloc Provider for calculator cubit
     return BlocProvider(
-      create: (context) => CalculatorCubit(),
+      create: (context) => CalculatorCubit(
+        inputController,
+      ),
       child: Scaffold(
         body: SafeArea(
-          child: BlocBuilder<CalculatorCubit, String?>(
+          child: BlocBuilder<CalculatorCubit, CalculatorState?>(
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(16),
@@ -36,11 +44,51 @@ class CalculatorPage extends StatelessWidget {
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            state ?? '0',
-                            textAlign: TextAlign.end,
-                            style: context.textTheme.displayLarge,
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: TextFormField(
+                                autofocus: true,
+                                readOnly: true,
+                                textDirection: TextDirection.ltr,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                style:
+                                    context.textTheme.displayMedium?.copyWith(
+                                  color: (state?.isIdle ?? false)
+                                      ? context.colorScheme.primary
+                                      : context.colorScheme.onBackground,
+                                ),
+                                controller: inputController,
+                                inputFormatters: [
+                                  /// Deny comma (we dont need comma)
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp(r','),
+                                  ),
+                                  ThousandsSeparatorInputFormatter(),
+                                ],
+                                textAlign: TextAlign.end,
+                                decoration: const InputDecoration(
+                                  prefixIconConstraints: BoxConstraints(
+                                    minWidth: 0,
+                                    minHeight: 0,
+                                  ),
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: state?.finalResult != null &&
+                                state?.finalResult != '0',
+                            child: Text(
+                              state?.finalResult ?? '0',
+                              textAlign: TextAlign.end,
+                              style: context.textTheme.displayMedium,
+                            ),
                           ),
                         ],
                       ),
@@ -57,10 +105,13 @@ class CalculatorPage extends StatelessWidget {
                           crossAxisCellCount: 1,
                           mainAxisCellCount: 1,
                           child: CalculatorButton(
+                            color: context.colorScheme.secondaryContainer,
                             child: Text(
                               '%',
                               textAlign: TextAlign.center,
-                              style: context.textTheme.headlineSmall,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                color: context.colorScheme.onSecondaryContainer,
+                              ),
                             ),
                             onTap: () {},
                           ),
@@ -69,34 +120,48 @@ class CalculatorPage extends StatelessWidget {
                           crossAxisCellCount: 1,
                           mainAxisCellCount: 1,
                           child: CalculatorButton(
+                            color: context.colorScheme.secondaryContainer,
                             child: Text(
                               '×',
                               textAlign: TextAlign.center,
-                              style: context.textTheme.headlineSmall,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                color: context.colorScheme.onSecondaryContainer,
+                              ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().multiply();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
                           crossAxisCellCount: 1,
                           mainAxisCellCount: 1,
                           child: CalculatorButton(
+                            color: context.colorScheme.secondaryContainer,
                             child: Text(
-                              '+',
+                              '÷',
                               textAlign: TextAlign.center,
-                              style: context.textTheme.headlineSmall,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                color: context.colorScheme.onSecondaryContainer,
+                              ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().divide();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
                           crossAxisCellCount: 1,
                           mainAxisCellCount: 1,
                           child: CalculatorButton(
-                            child: const Icon(
+                            color: context.colorScheme.secondaryContainer,
+                            child: Icon(
                               Icons.backspace,
+                              color: context.colorScheme.onSecondaryContainer,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().remove();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
@@ -151,7 +216,9 @@ class CalculatorPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: context.textTheme.headlineSmall,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().substract();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
@@ -206,7 +273,9 @@ class CalculatorPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: context.textTheme.headlineSmall,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().addition();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
@@ -255,15 +324,19 @@ class CalculatorPage extends StatelessWidget {
                           crossAxisCellCount: 1,
                           mainAxisCellCount: 2,
                           child: CalculatorButton(
-                            color: context.colorScheme.secondaryContainer,
+                            color: context.colorScheme.tertiaryContainer,
                             child: Text(
                               '=',
                               textAlign: TextAlign.center,
                               style: context.textTheme.headlineSmall?.copyWith(
-                                color: context.colorScheme.onSecondaryContainer,
+                                color: context.colorScheme.onTertiaryContainer,
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().calculate(
+                                    isFinished: true,
+                                  );
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
@@ -276,7 +349,7 @@ class CalculatorPage extends StatelessWidget {
                               style: context.textTheme.headlineSmall,
                             ),
                             onTap: () {
-                              context.read<CalculatorCubit>().clear();
+                              context.read<CalculatorCubit>().clearAll();
                             },
                           ),
                         ),
@@ -303,7 +376,9 @@ class CalculatorPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: context.textTheme.headlineSmall,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().comma();
+                            },
                           ),
                         ),
                       ],

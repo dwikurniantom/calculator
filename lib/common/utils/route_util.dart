@@ -22,8 +22,8 @@ class RouteUtil {
   /// future must be added to this map routes.
   Map<String, Widget Function(BuildContext)> get routes => {
         /// Callculator page route
-        CalculatorPage.routeName: (context) => const CalculatorPage(
-              key: Key(ComponentKey.callculatorPage),
+        CalculatorPage.routeName: (context) => CalculatorPage(
+              key: const Key(ComponentKey.callculatorPage),
             ),
       };
 }
