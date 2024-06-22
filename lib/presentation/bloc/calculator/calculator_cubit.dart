@@ -1,8 +1,10 @@
+import 'package:calculator/common/consts/data_format.dart';
 import 'package:calculator/common/extensions/double_calculator_extension.dart';
 import 'package:calculator/common/extensions/string_calculator_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 import 'calculator_state.dart';
 
@@ -19,19 +21,17 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
   /// Shorthand to retrieve text from TextEditingController
   String get currentText => inputController.text;
 
+  bool get hasOperands => currentText.contains(
+        DataFormat.operandRegexp,
+      );
+
   /// Add number to the calculation proccess
   void add(int value) {
     /// Get elements by split string by operand
-    final elements = inputController.text.split(
-      RegExp(r'[+\-×/]'),
-    );
-
-    final hasOperands = inputController.text.contains(
-      RegExp(r'[+\-×/]'),
-    );
+    final operators = currentText.convertToOperators;
 
     /// Get last section of input
-    final lastSection = elements.lastOrNull;
+    final lastSection = operators?.lastOrNull;
 
     /// If the previous value is 0 then the current value can't be 0
     if (lastSection == '0' && value == 0) return;
@@ -68,6 +68,42 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
     emit(null);
   }
 
+  /// Divide last section with 100 (to get percentage)
+  void percent() {
+    /// Get operators (number) by split string by operand
+    final operators = currentText.convertToOperators;
+
+    /// Get last section of input
+    final lastSection = operators?.lastOrNull;
+    final lastCharacter = currentText[currentText.length - 1];
+    final isOperand = DataFormat.operandRegexp.hasMatch(
+      lastCharacter,
+    );
+
+    if (lastSection != null && !isOperand) {
+      final value = double.tryParse(lastSection) ?? 0.0;
+
+      final result = value / 100;
+
+      final sanitizedResult = (result.hasZeroDecimal)
+          ? result.toStringAsFixed(0)
+          : result.toString();
+
+      final sectionLength = lastSection.length;
+
+      var text = currentText.substring(0, currentText.length - sectionLength);
+
+      final textResult = '$text$sanitizedResult';
+
+      inputController.text = textResult;
+
+      /// Auto calculate result if it already has operands
+      if (hasOperands) {
+        calculate();
+      }
+    }
+  }
+
   /// Substract previous variable and new variable
   void substract() {
     addOperand('-');
@@ -93,7 +129,7 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
     bool isFinished = false,
   }) {
     /// Shorthand to retrieve text from TextEditingController
-    final textInput = inputController.text;
+    final textInput = currentText;
 
     /// Shorthand to retrieve List of operands inside text input
     final operands = textInput.convertToOperands;
@@ -102,26 +138,28 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
     final operators = textInput.convertToOperators;
 
     if (operands != null && operators != null) {
-      /// Declare total variable, default value is operand 0
-      double total = double.tryParse(operators.first) ?? 0.0;
+      /// Change operator × to * this is becauser the math expression cannot
+      /// use × unicode
+      final sanitizedExpresion = currentText.replaceAll('×', '*');
 
-      /// Run all the calculation command by looping the list of operation, then
-      /// it will doing the mathematical calculation based on the operator
-      for (int i = 0; i < operands.length; i++) {
-        if (operands[i] == '+') {
-          /// Additive operation (add new value to current total value)
-          total += double.parse(operators[i + 1]);
-        } else if (operands[i] == '-') {
-          /// Substraction operation (Remove current total value with the new value)
-          total -= double.parse(operators[i + 1]);
-        } else if (operands[i] == '×') {
-          /// Multiply operation (Multiplying current total value with the new value)
-          total *= double.parse(operators[i + 1]);
-        } else if (operands[i] == '/') {
-          /// Divide operation (Dividing current total value with the new value)
-          total /= double.parse(operators[i + 1]);
-        }
-      }
+      /// I use math parser for calculation proccess
+      final mathParser = Parser();
+
+      /// Then add the whole expresion to the mathParser
+      final expressions = mathParser.parse(sanitizedExpresion);
+
+      /// Context model for math evaluation
+      final contextModel = ContextModel();
+
+      /// Math evaluation invocation
+      final mathEvaluation = expressions.evaluate(
+        EvaluationType.REAL,
+        contextModel,
+      );
+
+      /// Convert the evaluated result to string the parse it to double. This is
+      /// because the mathEvaluation is dynamic by default
+      final total = double.tryParse(mathEvaluation.toString()) ?? 0.0;
 
       /// Sanitize zero decimal to avoid useless decimal xx.0000
       final result = total.hasZeroDecimal ? total.toStringAsFixed(0) : total;
@@ -152,12 +190,10 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
   /// Add comma if the last section is not decimal
   void comma() {
     /// Get elements by split string by operand
-    final elements = inputController.text.split(
-      RegExp(r'[+\-×/]'),
-    );
+    final elements = currentText.convertToOperators;
 
     /// Get last section of input
-    final lastSection = elements.lastOrNull;
+    final lastSection = elements?.lastOrNull;
 
     /// Check if last section is decimal
     final isDecimal = lastSection?.contains('.') ?? false;
@@ -170,11 +206,69 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
 
   /// Base function to add operand to calculation runtime
   void addOperand(String operand) {
-    inputController.text = '$currentText$operand';
+    /// Add operand to textfield
+    if (currentText.isNotEmpty) {
+      final lastCharacter = currentText[currentText.length - 1];
+      if (lastCharacter != operand &&
+          DataFormat.operandRegexp.hasMatch(lastCharacter)) {
+        final newText = currentText.substring(0, currentText.length - 1);
+        inputController.text = '$newText$operand';
+      } else {
+        inputController.text = '$currentText$operand';
+      }
+    }
+    emit(
+      state?.copyWith(
+        isIdle: false,
+      ),
+    );
   }
 
   /// Base function to add number to calculation runtime
   void addNumber(String number) {
-    inputController.text = '$currentText$number';
+    if (currentText.isEmpty) {
+      inputController.text = '$currentText$number';
+    } else {
+      /// Get elements by split string by operand
+      final elements = currentText.convertToOperators;
+
+      /// Get last section of input
+      final lastSection = elements?.lastOrNull;
+
+      /// get last input from current text by substring from last character -1
+      final lastInput = currentText[currentText.length - 1];
+
+      /// Check if last input is operand using RegExp
+      final isLastInputOperand = DataFormat.operandRegexp.hasMatch(
+        lastInput,
+      );
+
+      if (isLastInputOperand) {
+        /// Check if last input is operand, if so add number to textfield
+        inputController.text = '$currentText$number';
+      } else if (lastSection != null) {
+        /// Check if last section is null, if so add number to textfield
+        /// Check if last section is decimal
+        final isDecimal = lastSection.contains('.');
+
+        /// Get first character from last section
+        final firstCharacter = lastSection.isNotEmpty ? lastSection[0] : null;
+
+        /// Check if first character is not 0 or it is decimal, otherwise it can
+        /// be added to textfield
+        if (firstCharacter != '0' || isDecimal) {
+          /// Add number to textfield
+          inputController.text = '$currentText$number';
+        }
+      } else {
+        /// Add number to textfield
+        inputController.text = '$currentText$number';
+      }
+    }
+    emit(
+      state?.copyWith(
+        isIdle: false,
+      ),
+    );
   }
 }

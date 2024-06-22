@@ -9,7 +9,7 @@ class ThousandsSeparatorInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    List<String> elements = newValue.text.split(RegExp(r'[+\-*/]'));
+    List<String> elements = newValue.text.split(RegExp(r'[+\-×/]'));
     List<String> operators = newValue.text
         .split(RegExp(r'\d+\,\d+|\d+'))
         .where((String element) => element.isNotEmpty)

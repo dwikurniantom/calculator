@@ -49,6 +49,7 @@ class CalculatorPage extends StatelessWidget {
                           Expanded(
                             child: SingleChildScrollView(
                               child: TextFormField(
+                                showCursor: true,
                                 autofocus: true,
                                 readOnly: true,
                                 textDirection: TextDirection.ltr,
@@ -87,7 +88,10 @@ class CalculatorPage extends StatelessWidget {
                             child: Text(
                               state?.finalResult ?? '0',
                               textAlign: TextAlign.end,
-                              style: context.textTheme.displayMedium,
+                              style: context.textTheme.displaySmall?.copyWith(
+                                color: context.colorScheme.onSurface
+                                    .withOpacity(0.65),
+                              ),
                             ),
                           ),
                         ],
@@ -113,7 +117,9 @@ class CalculatorPage extends StatelessWidget {
                                 color: context.colorScheme.onSecondaryContainer,
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.read<CalculatorCubit>().percent();
+                            },
                           ),
                         ),
                         StaggeredGridTile.count(
