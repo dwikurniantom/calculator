@@ -14,9 +14,13 @@ import 'calculator_state.dart';
 /// 3. Final result
 class CalculatorCubit extends Cubit<CalculatorState?> {
   final TextEditingController inputController;
+  final ScrollController inputScrollController;
 
   /// {@macro calculator_cubit}
-  CalculatorCubit(this.inputController) : super(null);
+  CalculatorCubit({
+    required this.inputController,
+    required this.inputScrollController,
+  }) : super(null);
 
   /// Shorthand to retrieve text from TextEditingController
   String get currentText => inputController.text;
@@ -208,20 +212,33 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
   void addOperand(String operand) {
     /// Add operand to textfield
     if (currentText.isNotEmpty) {
+      /// Check if last character is operand
       final lastCharacter = currentText[currentText.length - 1];
-      if (lastCharacter != operand &&
-          DataFormat.operandRegexp.hasMatch(lastCharacter)) {
-        final newText = currentText.substring(0, currentText.length - 1);
-        inputController.text = '$newText$operand';
+      final isOperand = DataFormat.operandRegexp.hasMatch(lastCharacter);
+
+      if (isOperand) {
+        /// If last character is operand then compare last character with input
+        /// operand (cannot be the same)
+        /// or any new operand input will replace the last operand
+        if (lastCharacter != operand) {
+          /// If last character is different than operand then remove lastchar
+          final newText = currentText.substring(0, currentText.length - 1);
+
+          /// And replace it with new operand
+          inputController.text = '$newText$operand';
+        }
       } else {
+        /// Add operand rightaway
         inputController.text = '$currentText$operand';
       }
+
+      /// Set idle to false
+      emit(
+        state?.copyWith(
+          isIdle: false,
+        ),
+      );
     }
-    emit(
-      state?.copyWith(
-        isIdle: false,
-      ),
-    );
   }
 
   /// Base function to add number to calculation runtime

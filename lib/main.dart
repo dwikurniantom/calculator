@@ -19,7 +19,7 @@ class IonMobilityCalculatorApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => GlobalBloc(
         GlobalState(
-          themeMode: ThemeMode.light,
+          themeMode: ThemeMode.system,
           themeUtil: ThemeUtil(context: context),
           routeUtil: RouteUtil(context: context),
         ),
