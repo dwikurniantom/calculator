@@ -48,7 +48,7 @@ void main() {
       child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Smath',
+            title: 'Simple Calculator',
             debugShowCheckedModeBanner: false,
             themeMode: state.themeMode,
             theme: state.themeUtil.lightTheme,
@@ -162,4 +162,21 @@ void main() {
       );
     },
   );
+}
+
+class NoKeyboardBinding extends WidgetsFlutterBinding
+    with TestDefaultBinaryMessengerBinding {
+  @override
+  void initInstances() {
+    super.initInstances();
+
+    // Override the default text input controller
+    defaultBinaryMessenger.setMockMessageHandler(
+      'flutter/textinput',
+      (message) async {
+        // Return an empty response to prevent keyboard actions
+        return null;
+      },
+    );
+  }
 }
