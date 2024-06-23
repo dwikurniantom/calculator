@@ -1,4 +1,4 @@
-import 'package:calculator/common/extensions/string_calculator_extension.dart';
+import 'package:smath/common/extensions/string_calculator_extension.dart';
 import 'package:flutter/services.dart';
 
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {

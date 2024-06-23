@@ -1,6 +1,6 @@
-import 'package:calculator/common/consts/data_format.dart';
-import 'package:calculator/common/extensions/double_calculator_extension.dart';
-import 'package:calculator/common/extensions/string_calculator_extension.dart';
+import 'package:smath/common/consts/data_format.dart';
+import 'package:smath/common/extensions/double_calculator_extension.dart';
+import 'package:smath/common/extensions/string_calculator_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

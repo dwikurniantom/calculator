@@ -1,4 +1,4 @@
-import 'package:calculator/presentation/pages/calculator_page.dart';
+import 'package:smath/presentation/pages/calculator_page.dart';
 import 'package:flutter/material.dart';
 
 import '../consts/component_key.dart';

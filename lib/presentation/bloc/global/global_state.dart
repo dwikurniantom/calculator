@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:calculator/common/utils/route_util.dart';
-import 'package:calculator/common/utils/theme_util.dart';
+import 'package:smath/common/utils/route_util.dart';
+import 'package:smath/common/utils/theme_util.dart';
 import 'package:flutter/material.dart';
 
 class GlobalState {

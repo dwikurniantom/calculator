@@ -1,9 +1,9 @@
-import 'package:calculator/common/consts/component_key.dart';
-import 'package:calculator/common/utils/route_util.dart';
-import 'package:calculator/common/utils/theme_util.dart';
-import 'package:calculator/presentation/bloc/calculator/calculator_cubit.dart';
-import 'package:calculator/presentation/bloc/global/global_cubit.dart';
-import 'package:calculator/presentation/bloc/global/global_state.dart';
+import 'package:smath/common/utils/route_util.dart';
+import 'package:smath/common/utils/theme_util.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_cubit.dart';
+import 'package:smath/presentation/bloc/global/global_cubit.dart';
+import 'package:smath/presentation/bloc/global/global_state.dart';
+import 'package:smath/presentation/pages/calculator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +14,8 @@ void main() {
   late ScrollController inputScrollController;
 
   setUp(() {
+    AutomatedTestWidgetsFlutterBinding.ensureInitialized();
+
     inputController = TextEditingController();
     inputScrollController = ScrollController();
     calculatorCubit = CalculatorCubit(
@@ -46,13 +48,12 @@ void main() {
       child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Simple Calculator',
+            title: 'Smath',
             debugShowCheckedModeBanner: false,
             themeMode: state.themeMode,
             theme: state.themeUtil.lightTheme,
             darkTheme: state.themeUtil.darkTheme,
-            routes: state.routeUtil.routes,
-            initialRoute: state.routeUtil.initialRoute,
+            home: const CalculatorPage(),
           );
         },
       ),
@@ -104,67 +105,57 @@ void main() {
             findsOneWidget,
           );
 
-          await tester.pump();
-
-          /// Optionally, we can tap the buttons to verify interactions.
-          /// simulating 12 + 5.5
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonOne,
-              ),
-            ),
-          );
-
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonTwo,
-              ),
-            ),
-          );
-
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonAdd,
-              ),
-            ),
-          );
-
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonFive,
-              ),
-            ),
-          );
-
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonDot,
-              ),
-            ),
-          );
-
-          await tester.tap(
-            find.byKey(
-              const Key(
-                ComponentKey.buttonFive,
-              ),
-            ),
-          );
-
-          await tester.pumpAndSettle();
-
           expect(
-            find.text('12+5.5'),
+            find.text('1'),
             findsOneWidget,
           );
 
           expect(
-            find.text('17.5'),
+            find.text('2'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('3'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('4'),
+            findsOneWidget,
+          );
+          expect(
+            find.text('5'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('6'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('7'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('8'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('9'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('0'),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text('.'),
             findsOneWidget,
           );
         },

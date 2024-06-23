@@ -1,5 +1,5 @@
-import 'package:calculator/common/consts/component_key.dart';
-import 'package:calculator/common/extensions/context_extension.dart';
+import 'package:smath/common/consts/component_key.dart';
+import 'package:smath/common/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

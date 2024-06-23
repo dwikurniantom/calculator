@@ -1,4 +1,4 @@
-import 'package:calculator/common/extensions/context_extension.dart';
+import 'package:smath/common/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorButton extends StatelessWidget {
