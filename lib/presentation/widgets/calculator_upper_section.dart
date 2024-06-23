@@ -1,7 +1,7 @@
-import 'package:calculator/common/extensions/context_extension.dart';
-import 'package:calculator/presentation/bloc/calculator/calculator_state.dart';
-import 'package:calculator/presentation/bloc/global/global_cubit.dart';
-import 'package:calculator/presentation/bloc/global/global_state.dart';
+import 'package:smath/common/extensions/context_extension.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_state.dart';
+import 'package:smath/presentation/bloc/global/global_cubit.dart';
+import 'package:smath/presentation/bloc/global/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,10 +24,10 @@ class CalculatorUpperSection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             child: SingleChildScrollView(
-              reverse: false,
               controller: inputScrollController,
               child: ValueListenableBuilder<TextEditingValue>(
                 valueListenable: inputController,

@@ -1,5 +1,5 @@
-import 'package:calculator/presentation/bloc/calculator/calculator_cubit.dart';
-import 'package:calculator/presentation/bloc/calculator/calculator_state.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_cubit.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';

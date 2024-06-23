@@ -1,5 +1,5 @@
-import 'package:calculator/presentation/bloc/calculator/calculator_cubit.dart';
-import 'package:calculator/presentation/bloc/calculator/calculator_state.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_cubit.dart';
+import 'package:smath/presentation/bloc/calculator/calculator_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,8 +54,9 @@ class CalculatorPageState extends State<CalculatorPage> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 /// Bloc builder for calculator cubit, notice only upper section
                 /// that has BlocBuilder. Because the bottom section is passive
@@ -68,6 +69,7 @@ class CalculatorPageState extends State<CalculatorPage> {
                 ),
                 const SizedBox(
                   height: 16,
+                  width: double.maxFinite,
                 ),
                 const CalculatorBottomSection(),
               ],

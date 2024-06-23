@@ -1,6 +1,6 @@
-import 'package:calculator/common/utils/route_util.dart';
-import 'package:calculator/common/utils/theme_util.dart';
-import 'package:calculator/presentation/bloc/global/global_state.dart';
+import 'package:smath/common/utils/route_util.dart';
+import 'package:smath/common/utils/theme_util.dart';
+import 'package:smath/presentation/bloc/global/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +27,7 @@ class IonMobilityCalculatorApp extends StatelessWidget {
       child: BlocBuilder<GlobalBloc, GlobalState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Simple Calculator',
+            title: 'Smath',
             debugShowCheckedModeBanner: false,
             themeMode: state.themeMode,
             theme: state.themeUtil.lightTheme,

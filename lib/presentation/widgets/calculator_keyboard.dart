@@ -1,4 +1,5 @@
-import 'package:calculator/common/extensions/context_extension.dart';
+import 'package:smath/common/consts/component_key.dart';
+import 'package:smath/common/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -20,6 +21,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonPercent,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Text(
               '%',
@@ -37,6 +41,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonMultiply,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Text(
               '×',
@@ -54,6 +61,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonDivide,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Text(
               '÷',
@@ -71,6 +81,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonBackspace,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Icon(
               Icons.backspace,
@@ -85,6 +98,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonSeven,
+            ),
             child: Text(
               '7',
               textAlign: TextAlign.center,
@@ -99,6 +115,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonEight,
+            ),
             child: Text(
               '8',
               textAlign: TextAlign.center,
@@ -113,6 +132,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonNine,
+            ),
             child: Text(
               '9',
               textAlign: TextAlign.center,
@@ -127,6 +149,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonSubtract,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Text(
               '-',
@@ -142,6 +167,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonFour,
+            ),
             child: Text(
               '4',
               textAlign: TextAlign.center,
@@ -156,6 +184,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonFive,
+            ),
             child: Text(
               '5',
               textAlign: TextAlign.center,
@@ -170,6 +201,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonSix,
+            ),
             child: Text(
               '6',
               textAlign: TextAlign.center,
@@ -184,6 +218,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonAdd,
+            ),
             color: context.colorScheme.secondaryContainer,
             child: Text(
               '+',
@@ -199,6 +236,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonOne,
+            ),
             child: Text(
               '1',
               textAlign: TextAlign.center,
@@ -213,6 +253,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonTwo,
+            ),
             child: Text(
               '2',
               textAlign: TextAlign.center,
@@ -227,6 +270,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonThree,
+            ),
             child: Text(
               '3',
               textAlign: TextAlign.center,
@@ -241,6 +287,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 2,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonEqual,
+            ),
             color: context.colorScheme.tertiaryContainer,
             child: Text(
               '=',
@@ -260,6 +309,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonClear,
+            ),
             child: Text(
               'AC',
               textAlign: TextAlign.center,
@@ -274,6 +326,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonZero,
+            ),
             child: Text(
               '0',
               textAlign: TextAlign.center,
@@ -288,6 +343,9 @@ class CalculatorKeyboard extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: CalculatorButton(
+            key: const Key(
+              ComponentKey.buttonDot,
+            ),
             child: Text(
               '.',
               textAlign: TextAlign.center,
