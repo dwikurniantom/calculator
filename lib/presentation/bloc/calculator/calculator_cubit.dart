@@ -61,11 +61,6 @@ class CalculatorCubit extends Cubit<CalculatorState?> {
     }
   }
 
-  /// Clear the current calculation proccess
-  void clear() {
-    inputController.clear();
-  }
-
   /// Clear all calculation proccess
   void clearAll() {
     inputController.clear();
