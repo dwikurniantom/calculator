@@ -39,5 +39,35 @@ This project use multiple dependency, for state management this project using `f
 7. Run `flutter run` 
 
 
+## Features
+- (A very Basic) Calculator
+- It has 2 theme modes, light and dark
+
+<table>
+  
+  <tr>
+    <th>
+      Light Mode
+    </th>
+    <th>
+      Dark Mode
+    </th>
+    <th>
+      Custom App Icon (Android)
+    </th>
+  </tr>
+  <tr>
+    <td>
+        <img src="https://github.com/dwikurniantom/calculator/assets/27884014/2ead6aa5-8957-4bea-9d4a-ee269ea3a7ff" width="250px">
+    </td>
+    <td>
+        <img src="https://github.com/dwikurniantom/calculator/assets/27884014/91e9e0a8-0523-455c-93a8-20ad1b541b0b" width="250px">
+    </td>
+    <td>
+        <img src="https://github.com/dwikurniantom/calculator/assets/27884014/2aa8ffd6-e8c1-415c-a78c-446073731a9a" width="250px">
+    </td>
+  </tr>
+</table>
+
 ## Tips
 > If there is something off with the UI this project is mainly developed using Iphone 15 pro max simulator, and this project might or may be support other screensize / screen category.
